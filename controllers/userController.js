@@ -16,7 +16,7 @@ const SignUpUser = (req, res, next) => {
       return err;
     }
   });
-  res.send("new user added");
+  res.send("added new user");
 };
 
 const loginUser = (req, res, next) => {};

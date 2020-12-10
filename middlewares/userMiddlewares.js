@@ -17,4 +17,27 @@ const checkRequestBody = (req, res, next) => {
   next();
 };
 
+const isEmailValid = (req, res, next) => {
+  if (!req.body.email.includes("@")) {
+    return sendErrorMessage(new AppError(406, "Not a valid email"), req, res);
+  }
+  next();
+};
+
+const isEmailUnique = (req, res, next) => {
+  let findUser = users.find((user) => {
+    return user.email == req.body.email;
+  });
+  if (findUser) {
+    return sendErrorMessage(
+      new AppError(400, "User already Registered"),
+      req,
+      res
+    );
+  }
+  next();
+};
+
 module.exports.checkRequestBody = checkRequestBody;
+module.exports.isEmailValid = isEmailValid;
+module.exports.isEmailUnique = isEmailUnique;
