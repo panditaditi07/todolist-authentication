@@ -4,7 +4,7 @@ class User {
     this.userId = uniqid();
     this.email = email;
     this.password = password;
-    this.confirmPassword = confirmPassword;
+    this.createdAt = Date.now;
   }
 }
 module.exports = User;

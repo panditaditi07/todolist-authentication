@@ -1,15 +1,22 @@
 const User = require("../models/userModel");
 const fs = require("fs");
 const path = require("path");
+const AppError = require("../helpers/appErrorClass");
+const { sendErrorMessage } = require("../helpers/sendError");
+const { sendResponse } = require("../helpers/sendReponse");
 const fileName = path.join(__dirname, "..", "data", "users.json");
 const users = JSON.parse(fs.readFileSync(fileName, "utf-8"));
 
 const SignUpUser = (req, res, next) => {
   let newUser = new User(req.body.email, req.body.password);
   users.push(newUser);
-  fs.writeFile(fileName, JSON.stringify(users, null, 2)=>{
-    
+  fs.writeFile(fileName, JSON.stringify(users, null, 2), (err) => {
+    if (err) {
+      res.send("internal error");
+      return err;
+    }
   });
+  res.send("new user added");
 };
 
 const loginUser = (req, res, next) => {};
