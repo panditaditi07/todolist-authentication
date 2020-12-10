@@ -19,7 +19,9 @@ const SignUpUser = (req, res, next) => {
   res.send("added new user");
 };
 
-const loginUser = (req, res, next) => {};
+const loginUser = (req, res, next) => {
+  res.send("login successfully");
+};
 
 module.exports.SignUpUser = SignUpUser;
 module.exports.loginUser = loginUser;

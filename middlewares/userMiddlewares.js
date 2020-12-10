@@ -8,7 +8,17 @@ const fileName = path.join(__dirname, "..", "data", "users.json");
 const users = JSON.parse(fs.readFileSync(fileName, "utf-8"));
 
 const checkRequestBody = (req, res, next) => {
-  let validationArray = ["email", "password", "confirmPassword"];
+  let validationArray;
+  switch (req.url) {
+    case "/signup":
+      validationArray = ["email", "password", "confirmPassword"];
+      break;
+    case "/login":
+      validationArray = ["email", "password"];
+      break;
+    default:
+      return sendErrorMessage(new AppError(400, "Error "), req, res);
+  }
   let result = validationArray.every((key) => {
     return req.body[key] && req.body[key].trim().length;
   });

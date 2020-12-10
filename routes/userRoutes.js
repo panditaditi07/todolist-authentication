@@ -20,6 +20,6 @@ router
     SignUpUser
   );
 
-router.route("/login").post(loginUser);
+router.route("/login").post(checkRequestBody, loginUser);
 
 module.exports = router;
