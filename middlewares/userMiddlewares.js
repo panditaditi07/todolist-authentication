@@ -66,8 +66,20 @@ const createPasswordHash = async (req, res, next) => {
   next();
 };
 
+const isUserRegistered = (req, res, next) => {
+  let findUser = users.find((user) => {
+    return user.email == req.body.email;
+  });
+  if (!findUser) {
+    return res.send("User not registered");
+  }
+  req.currentUser = { ...findUser };
+  next();
+};
+
 module.exports.checkRequestBody = checkRequestBody;
 module.exports.isEmailValid = isEmailValid;
 module.exports.isEmailUnique = isEmailUnique;
 module.exports.checkConfirmPassword = checkConfirmPassword;
 module.exports.createPasswordHash = createPasswordHash;
+module.exports.isUserRegistered = isUserRegistered;

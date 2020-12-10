@@ -6,6 +6,7 @@ const {
   isEmailUnique,
   checkConfirmPassword,
   createPasswordHash,
+  isUserRegistered,
 } = require("../middlewares/userMiddlewares");
 const { SignUpUser, loginUser } = require("../controllers/userController");
 
@@ -20,6 +21,6 @@ router
     SignUpUser
   );
 
-router.route("/login").post(checkRequestBody, loginUser);
+router.route("/login").post(checkRequestBody, isUserRegistered, loginUser);
 
 module.exports = router;

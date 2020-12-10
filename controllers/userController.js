@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const fs = require("fs");
 const path = require("path");
+const bcrypt = require("bcryptjs");
 const AppError = require("../helpers/appErrorClass");
 const { sendErrorMessage } = require("../helpers/sendError");
 const { sendResponse } = require("../helpers/sendReponse");
@@ -19,7 +20,14 @@ const SignUpUser = (req, res, next) => {
   res.send("added new user");
 };
 
-const loginUser = (req, res, next) => {
+const loginUser = async (req, res, next) => {
+  let result = await bcrypt.compare(
+    req.body.password,
+    req.currentUser.password
+  );
+  if (!result) {
+    return res.send("Password is incorrect");
+  }
   res.send("login successfully");
 };
 
