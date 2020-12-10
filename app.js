@@ -7,6 +7,8 @@ dotenv.config({ path: "./config.env" });
 const app = express();
 app.use(express.json());
 app.use("/users", userRouter);
+
+
 app.listen(
   process.env.PORT,
   console.log(`Server starting at port ${process.env.PORT}`)
