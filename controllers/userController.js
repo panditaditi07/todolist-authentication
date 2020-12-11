@@ -22,33 +22,41 @@ const SignUpUser = (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  let result = await bcrypt.compare(
-    req.body.password,
-    req.currentUser.password
-  );
-  if (!result) {
+  try {
+    let result = await bcrypt.compare(
+      req.body.password,
+      req.currentUser.password
+    );
+    if (!result) {
+      return sendErrorMessage(
+        new AppError(400, "unsuccessful", "Password is incorrect"),
+        req,
+        res
+      );
+    }
+    //generate token
+    let jwtToken = await generateToken(
+      { email: req.currentUser.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    res.cookie("jwt", jwtToken);
+    res.status(200).json({
+      status: "successfully login",
+      data: [
+        {
+          jwt: jwtToken,
+        },
+      ],
+    });
+    // res.send("user logged in successfully");
+  } catch (err) {
     return sendErrorMessage(
-      new AppError(400, "Password is incorrect"),
+      new AppError(400, "unsuccessful", "Password is incorrect"),
       req,
       res
     );
   }
-  //generate token
-  let jwtToken = await generateToken(
-    { email: req.currentUser.email },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  );
-  res.cookie("jwt", jwtToken);
-  res.status(200).json({
-    status: "successfully login",
-    data: [
-      {
-        jwt: jwtToken,
-      },
-    ],
-  });
-  res.send("user logged in successfully");
 };
 
 module.exports.SignUpUser = SignUpUser;

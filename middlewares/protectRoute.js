@@ -34,7 +34,7 @@ const protectRoute = async (req, res, next) => {
   });
   if (!currentUser) {
     return sendErrorMessage(
-      new AppError(401, "Unsuccesssul", "User not registered"),
+      new AppError(401, "Unsuccessful", "User not registered"),
       req,
       res
     );
